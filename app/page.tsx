@@ -51,12 +51,20 @@ export default function Home() {
     fetchImages();
   }, []);
 
-  const sortedImages = [...images].sort((a, b) => {
-    const aPinned = pinnedIds.has(a.id);
-    const bPinned = pinnedIds.has(b.id);
-    if (aPinned === bPinned) return 0;
+const sortedImages = [...images].sort((a, b) => {
+  const aPinned = pinnedIds.has(a.id);
+  const bPinned = pinnedIds.has(b.id);
+
+  if (aPinned !== bPinned) {
     return aPinned ? -1 : 1;
-  });
+  }
+
+  if (!a.date && !b.date) return 0;
+  if (!a.date) return 1;
+  if (!b.date) return -1;
+
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+});
 
   const togglePin = (imageId: string, e: React.MouseEvent) => {
     e.stopPropagation();
