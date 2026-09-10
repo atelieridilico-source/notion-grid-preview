@@ -49,7 +49,7 @@ export async function GET() {
                 src: imageUrl,
                 alt: file.name || "Image from Notion",
                 title: properties.Name ? (properties.Name as any).title?.[0]?.plain_text : "Untitled",
-                date: page.created_time,
+                date: (properties["Publish Date"] as any)?.date?.start || null,
               });
             }
           }
